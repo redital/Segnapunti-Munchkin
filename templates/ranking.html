@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifica Munchkin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Classifica Giocatori</h1>
+    <h2>Vittorie Totali</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Vittorie</th>
+                <th>Partite Giocate</th>
+                <th>Percentuale di Vittorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player, win_percentage, win_count, total_games in players %}
+                <tr>
+                    <td>{{ player.name }}</td>
+                    <td>{{ win_count }}</td>
+                    <td>{{ total_games }}</td>
+                    <td>{{ win_percentage|round(2) }}%</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/">Torna alla home</a>
+</body>
+</html>

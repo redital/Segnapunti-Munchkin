@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segnapunti Munchkin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Segnapunti Munchkin</h1>
+
+    <form action="/add_player" method="post">
+        <input type="text" name="name" placeholder="Nome Giocatore" required>
+        <button type="submit">Aggiungi Giocatore</button>
+    </form>
+
+    <h2>Giocatori</h2>
+    <form action="/start_game" method="post">
+        <ul>
+            {% for player in players %}
+                <li>
+                    <input type="checkbox" name="players" value="{{ player.id }}" checked>{{ player.name }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Inizia la Partita</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Livello</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+                <tr>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.level }}</td>
+                    <td>
+                        <a href="/update_level/{{ player.id }}/1">+1</a>
+                        <a href="/update_level/{{ player.id }}/-1">-1</a>
+                        <a href="/remove_player/{{ player.id }}">Rimuovi dalla partita</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/ranking">Vai alla classifica</a>
+</body>
+</html>
