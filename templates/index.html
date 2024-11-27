@@ -18,12 +18,24 @@
     <form action="/start_game" method="post">
         <ul>
             {% for player in players %}
-                <li>
-                    <input type="checkbox" name="players" value="{{ player.id }}" checked>{{ player.name }}
-                </li>
+            <li>
+                <input type="checkbox" name="players" value="{{ player.id }}" 
+                    {% if player.name in ['Raffaello', 'Francesco', 'Ettore', 'Pierclaudio'] %}
+                        checked
+                    {% elif player in current_players %}
+                        checked
+                    {% endif %}
+                >
+                {{ player.name }}
+            </li>
             {% endfor %}
         </ul>
         <button type="submit">Inizia la Partita</button>
+    </form>
+
+    <!-- Aggiungi il pulsante per terminare la partita -->
+    <form action="/end_game" method="post">
+        <button type="submit" {% if not current_game_players %}disabled{% endif %}>Termina Partita</button>
     </form>
 
     <table>
@@ -35,14 +47,17 @@
             </tr>
         </thead>
         <tbody>
-            {% for player in players %}
+            {% for player_data in current_players %}
                 <tr>
-                    <td>{{ player.name }}</td>
-                    <td>{{ player.level }}</td>
+                    <td>{{ player_data.player.name }}</td>
+                    <td>{{ player_data.level if player_data.level is not none else 'N/A' }}</td>
                     <td>
-                        <a href="/update_level/{{ player.id }}/1">+1</a>
-                        <a href="/update_level/{{ player.id }}/-1">-1</a>
-                        <a href="/remove_player/{{ player.id }}">Rimuovi dalla partita</a>
+                        <form action="/update_level/{{ player_data.player.id }}/p1" method="get" style="display:inline;" id="form-pulsanti">
+                            <button type="submit" class="btn btn-increment">+1</button>
+                        </form>
+                        <form action="/update_level/{{ player_data.player.id }}/m1" method="get" style="display:inline;" id="form-pulsanti">
+                            <button type="submit" class="btn btn-decrement">-1</button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}

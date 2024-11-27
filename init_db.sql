@@ -1,3 +1,6 @@
+-- Elimina tutte le tabelle esistenti (per inizializzare il database da zero)
+DROP DATABASE IF EXISTS munchkin;
+
 -- Crea il database 'munchkin' (se non esiste già)
 CREATE DATABASE IF NOT EXISTS munchkin;
 
@@ -16,7 +19,8 @@ CREATE TABLE IF NOT EXISTS players (
 -- Crea la tabella per le partite (games)
 CREATE TABLE IF NOT EXISTS games (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    start_time DATETIME DEFAULT CURRENT_TIMESTAMP
+    start_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 -- Crea la tabella di relazione per i giocatori attivi nelle partite (current_game_players)
@@ -25,6 +29,7 @@ CREATE TABLE IF NOT EXISTS current_game_players (
     game_id INT NOT NULL,
     player_id INT NOT NULL,
     level INT DEFAULT 1,
+    is_winner BOOLEAN DEFAULT FALSE,  -- Indica se il giocatore è vincitore
     FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
     FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
 );
@@ -33,7 +38,7 @@ CREATE TABLE IF NOT EXISTS current_game_players (
 CREATE TABLE IF NOT EXISTS victories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     player_id INT NOT NULL,
-    win_date DATE DEFAULT CURRENT_DATE,
+    win_date DATE NOT NULL,  -- La colonna è obbligatoria ma senza valore predefinito
     FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
 );
 
@@ -47,4 +52,3 @@ VALUES
     ('Francesco'),
     ('Ettore'),
     ('Pierclaudio');
-

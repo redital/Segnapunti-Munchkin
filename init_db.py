@@ -1,18 +1,15 @@
 import mysql.connector
 from mysql.connector import Error
+from config import database_config
 
-def execute_sql_file(file_path, host, user, password, database):
+
+def execute_sql_file(file_path, database_config):
     try:
         # Connessione al database
-        connection = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database
-        )
+        connection = mysql.connector.connect(**database_config)
 
         if connection.is_connected():
-            print(f"Connessione al database {database} avvenuta con successo!")
+            print("Connessione al database {} avvenuta con successo!".format(database_config["database"]))
 
             # Legge il contenuto del file SQL
             with open(file_path, 'r') as file:
@@ -38,13 +35,14 @@ def execute_sql_file(file_path, host, user, password, database):
             print("Connessione al database chiusa.")
 
 # Parametri di connessione (modifica con i tuoi dati)
-db_host = "localhost"  # Modifica con l'indirizzo del tuo server DB
-db_user = "your_user"  # Modifica con il tuo nome utente DB
-db_password = "your_password"  # Modifica con la tua password DB
-db_name = "munchkin"  # Modifica con il nome del tuo database
+
+#db_host = "localhost"  # Modifica con l'indirizzo del tuo server DB
+#db_user = "your_user"  # Modifica con il tuo nome utente DB
+#db_password = "your_password"  # Modifica con la tua password DB
+#db_name = "munchkin"  # Modifica con il nome del tuo database
 
 # Percorso del file SQL da eseguire
 file_path = "init_db.sql"  # Modifica con il percorso del file .sql
 
 # Esegui lo script
-execute_sql_file(file_path, db_host, db_user, db_password, db_name)
+execute_sql_file(file_path, database_config)
