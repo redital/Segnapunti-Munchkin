@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   segnapunti-munchkin:
+    container_name: segnapunti-munchkin
     build: .
     container_name: flask_app
     environment:
@@ -17,3 +18,4 @@ services:
       - SECRET_KEY=${SECRET_KEY:-mysecretkey}
     ports:
       - "8765:${FLASK_PORT}"
+    pull_policy: build
