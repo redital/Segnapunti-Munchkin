@@ -1,11 +1,14 @@
 # Immagine base
-FROM python:3.11-slim
+FROM python:3.11
 
 # Impostazioni di lavoro
 WORKDIR /app
 
 # Copia i file necessari
 COPY . /app
+
+# Aggiorna pip
+RUN pip install --upgrade pip
 
 # Installa le dipendenze
 RUN pip install --no-cache-dir -r requirements.txt
