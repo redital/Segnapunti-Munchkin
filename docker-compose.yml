@@ -1,9 +1,19 @@
 version: '3.8'
 
 services:
-  web:
+  flask-app:
     build: .
-    ports:
-      - "5000:5000"
+    container_name: flask_app
     environment:
       - FLASK_APP=app.py
+      - FLASK_DEBUG=${FLASK_DEBUG:-True}
+      - FLASK_HOST=${FLASK_HOST:-0.0.0.0}
+      - FLASK_PORT=${FLASK_PORT:-5000}
+      - DB_HOST=${DB_HOST:-host_del_tuo_db}  
+      - DB_PORT=${DB_PORT:-3306}             
+      - DB_USER=${DB_USER:-tuo_username_db}   
+      - DB_PASSWORD=${DB_PASSWORD:-tuo_password_db}  
+      - DB_NAME=${DB_NAME:-tuo_nome_db}       
+      - SECRET_KEY=${SECRET_KEY:-mysecretkey}
+    ports:
+      - "8765:${FLASK_PORT}"
