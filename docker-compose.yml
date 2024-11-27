@@ -4,7 +4,6 @@ services:
   segnapunti-munchkin:
     container_name: segnapunti-munchkin
     build: .
-    container_name: flask_app
     environment:
       - FLASK_APP=app.py
       - FLASK_DEBUG=${FLASK_DEBUG:-True}
