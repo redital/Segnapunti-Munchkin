@@ -3,7 +3,6 @@ version: '3.8'
 services:
   segnapunti-munchkin:
     container_name: segnapunti-munchkin
-    build: .
     environment:
       - FLASK_APP=app.py
       - FLASK_DEBUG=${FLASK_DEBUG:-True}
@@ -17,4 +16,6 @@ services:
       - SECRET_KEY=${SECRET_KEY:-mysecretkey}
     ports:
       - "8765:${FLASK_PORT}"
+    restart: unless-stopped
+    build: .
     pull_policy: build
