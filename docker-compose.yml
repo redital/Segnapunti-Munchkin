@@ -4,6 +4,8 @@ services:
   segnapunti-munchkin:
     container_name: segnapunti-munchkin
     environment:
+      - PYTHONUNBUFFERED=1
+
       - FLASK_APP=app.py
       - FLASK_DEBUG=${FLASK_DEBUG:-True}
       - FLASK_HOST=${FLASK_HOST:-0.0.0.0}
